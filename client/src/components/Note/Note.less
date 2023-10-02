@@ -1,0 +1,139 @@
+.note{
+    margin-top: 4.6vw;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 2;
+    color: #000;
+    transition: 0.5s;
+    &:nth-child(1){
+        margin-top: 0;
+    }
+}
+.leftSide{
+    width: 22%;
+    padding-right: 1.3vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-direction: column;
+    border-right: 0.2vw solid #000;
+}
+.rightSide{
+    width: 78%;
+    padding-left: 1.3vw;
+    padding-top: 0;
+    z-index: 2;
+    background-color: #ffdcc9;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.header{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    font-size: 2.5vw;
+    font-weight: bold;
+}
+.body{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    margin-top: 1vw;
+    font-size: 1.5vw;
+    font-weight: normal;
+    font-family: Brush Script MT, Brush Script Std;
+    font-style: italic;
+    letter-spacing: 0.3vw;
+}
+.date{
+    margin-top: 0.5vw;
+    font-size: 1.3vw;
+}
+.delete{
+    margin-top: 1.4vw;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 2.2vw;
+}
+
+@media(max-width: 1200px){
+    .header{
+        font-size: 3.5vw;
+    }
+    .body{
+        font-size: 2.5vw;
+    }
+    .date{
+        font-size: 2.3vw;
+    }
+    .delete{
+        font-size: 3.2vw;
+    }
+}
+@media(max-width: 992px){
+    .header{
+        font-size: 4.5vw;
+    }
+    .body{
+        font-size: 3.5vw;
+    }
+    .date{
+        font-size: 3.3vw;
+    }
+    .delete{
+        font-size: 4.2vw;
+    }
+}
+@media(max-width: 768px){
+    .note{
+        margin-top: 10vw;
+    }
+    .rightSide{
+        padding-left: 2vw;
+    }
+    .leftSide{
+        padding-right: 2vw;
+    }
+    .header{
+        font-size: 6.5vw;
+    }
+    .body{
+        font-size: 4.5vw;
+    }
+    .date{
+        font-size: 3.5vw;
+        margin-top: 1.2vw;
+    }
+    .delete{
+        margin-top: 1.6vw;
+        font-size: 6.2vw;
+    }
+}
+@media(max-width: 576px){
+    .rightSide{
+        width: 39%;
+    }
+    .header{
+        font-size: 15vw;
+    }
+    .body{
+        margin: 0;
+        font-size: 13vw;
+    }
+    .date{
+        margin-top: 2vw;
+        font-size: 7.5vw;
+    }
+    .delete{
+        font-size: 8vw;
+        margin-top: 11.3vw;
+    }
+}

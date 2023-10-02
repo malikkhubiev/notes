@@ -1,0 +1,135 @@
+.main{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    width: 100%;
+    min-height: 100vh;
+    padding: 1.5vw 19.09910295333249vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+.top{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &Text{
+        color: #000;
+        font-size: 2vw;
+    }
+}
+.center{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+.field{
+    width: 100%;
+    border: 0;
+    background-color: transparent;
+    font-size: 2vw;
+    outline: none;
+}
+.fieldContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 6.1vw;
+    &:nth-child(2){
+        margin-top: 3.1vw;
+    }
+}
+.counter{
+    font-size: 1.5vw;
+    margin-bottom: 1vw;   
+}
+.body{
+    padding-right: 1vw;
+    height: 30vw;
+    resize: none;
+    overflow-x: hidden;
+}
+@media(max-width: 1200px) {
+    .topText{
+        font-size: 3vw;
+    }
+    .fieldContainer:nth-child(2){
+        margin-top: 5vw;
+    }
+    .counter{
+        font-size: 2vw;
+    }
+    .field{
+        font-size: 3vw;
+    }
+    .body{
+        height: 40vw;
+    }
+}
+@media(max-width: 992px) {
+    .topText{
+        font-size: 4vw;
+    }
+    .field{
+        font-size: 4vw;
+    }
+    .fieldContainer:nth-child(2){
+        margin-top: 7vw;
+    }
+    .counter{
+        font-size: 2.5vw;
+    }
+    .body{
+        height: 50vw;
+    }
+}
+@media(max-width: 768px){
+    .container{
+        padding: 3vw 11.80414274000772vw;
+    }
+    .topText{
+        font-size: 5vw;
+    }
+    .fieldContainer:nth-child(2){
+        margin-top: 9vw;
+    }
+    .counter{
+        font-size: 3vw;
+    }
+    .field{
+        font-size: 5vw;
+    }
+    .body{
+        height: 105vw;
+    }
+}
+@media(max-width: 576px){
+    .container{
+        padding: 5vw 4.508970749344793vw;
+    }
+    .topText{
+        font-size: 11vw;
+    }
+    .fieldContainer:nth-child(2){
+        margin-top: 11vw;
+    }
+    .counter{
+        font-size: 7vw;
+    }
+    .field{
+        font-size: 9vw;
+    }
+    .body{
+        height: 160vw;
+    }
+}
