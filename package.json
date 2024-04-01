@@ -11,13 +11,13 @@
     "start": "node index.js",
     "server": "nodemon ./src/index.js",
     "client": "npm run dev --prefix ./client",
-    "all": "concurrently \"npm run server\" \"npm run client\"",
-    "netStart": "netlify dev"
+    "all": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "Malik Khubiev <malik.hubiev@mail.ru>",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "concurrently": "^7.0.0",
     "cors": "^2.8.5",
     "dotenv": "^14.2.0",

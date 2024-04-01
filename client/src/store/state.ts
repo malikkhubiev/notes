@@ -9,6 +9,9 @@ export const modalCalling = (message: string) => {
 }
 
 export const generalInLogout = (token: string) => {
+    if (typeof token !== 'string') {
+        throw new TypeError('Token must be a string');
+    }
     localStorage.setItem('token', token)
     state.isAuth = true
 }
@@ -54,6 +57,7 @@ class State {
             const response = await $host.post('/auth/registration', { name, password })
             modalCalling(response.data.message)
         } catch (e) {
+            console.log(e)
             modalCalling(e.response.data.message)
         }
     }

@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError')
 const { User, Note } = require('../models')
 const jwt = require('jsonwebtoken')
-//const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator')
 
 const SECRET_KEY = process.env.SECRET_KEY
@@ -20,8 +20,7 @@ class authController {
             const { name, password } = req.body
             const candidate = await User.findOne({where: { name }})
             if (candidate) return next(ApiError.badRequest('User with the same username is already existing'))
-            //const hashedPassword = bcrypt.hashSync(password, 3)
-            const hashedPassword = password
+            const hashedPassword = bcrypt.hashSync(password, 3)
             await User.create({ name, password: hashedPassword })
             return res.json({message: 'User successfully registered'})
         } catch (e) {
@@ -34,8 +33,7 @@ class authController {
             const password = req.params.password.slice(1)
             const user = await User.findOne({where: {id}})
             if (!user) return next(ApiError.badRequest('There is no such user'))
-            //const isPassword = bcrypt.compareSync(password, user.password)
-            const isPassword = password == user.password
+            const isPassword = bcrypt.compareSync(password, user.password)
             if (!isPassword) return next(ApiError.badRequest('You entered the wrong password'))
             await Note.destroy({where: {userId: id}})
             await User.destroy({where: {id}})
