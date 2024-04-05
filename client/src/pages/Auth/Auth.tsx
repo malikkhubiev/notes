@@ -25,6 +25,9 @@ export const Auth: FC<AuthPropsType> = ({ login, registration }) => {
     }
 
     const submitHandler = () => {
+        console.log(2)
+        console.log(registration)
+        console.log(isLogin)
         isLogin
             ?
             login(username, password)
@@ -68,7 +71,7 @@ export const Auth: FC<AuthPropsType> = ({ login, registration }) => {
                 onClick={submitHandler}
                 disabled={!username || !password}
                 className={styles.submit}
-            >{isLogin ? 'Log in' : 'Registration'}</button>
+            >{isLogin ? 'Log in' : 'Registrate'}</button>
         </div>
     )
 }

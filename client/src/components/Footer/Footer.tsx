@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import { FooterPropsType } from '../../pages/Main/Main.types'
 import styles from './Footer.module.less'
 
-export const Footer:FC<FooterPropsType> = ({ deleteAccount, outButtonStyle, addButtonStyle }) => {
+export const Footer: FC<FooterPropsType> = ({ deleteAccount }) => {
 
     let [password, setPassword] = useState<string>('')
     let [toggleDeleteButton, setToggleDeleteButton] = useState<boolean>(false)
@@ -17,27 +17,41 @@ export const Footer:FC<FooterPropsType> = ({ deleteAccount, outButtonStyle, addB
 
     const confirmPasswordHandler = () => {
         toggleButtonHandler()
-        setPassword(prev => prev = '')
-        if (password.trim() !== '') deleteAccount(password)
+        const passwordCopy = password; 
+        console.log(123)
+        console.log(passwordCopy)
+        console.log(123)
+        if (passwordCopy.trim() !== '') {
+            deleteAccount(password)
+            setPassword(prev => prev = '')
+        }
     }
 
     return <>
         <div className={styles.deleteBox}>
-            <input
-                placeholder="Enter your password"
-                value={toggleDeleteButton ? password : "delete account"}
-                onChange={setPasswordHandler}
-                onClick={toggleDeleteButton ? () => {} : toggleButtonHandler}
-                type={toggleDeleteButton ? "text" : "button"}
-                className={styles.button}
-            >
-            </input>
+            {
+                !toggleDeleteButton ?
+                    <input
+                        value={"delete account"}
+                        onClick={toggleButtonHandler}
+                        type={"button"}
+                        className={styles.button}
+                    />
+                    :
+                    <input
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={setPasswordHandler}
+                        type={"text"}
+                        className={styles.button}
+                    />
+            }
             {
                 toggleDeleteButton &&
-                <button 
-                    onClick={confirmPasswordHandler} 
+                <button
+                    onClick={confirmPasswordHandler}
                     className={`${styles.button} ${styles.confirmButton}`}
-                >&#10004;</button>
+                >✔</button>
             }
         </div>
     </>

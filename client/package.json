@@ -4,7 +4,7 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "test": "jest Modal.test.tsx",
+    "test": "jest App.test.tsx",
     "dev": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production"
   },

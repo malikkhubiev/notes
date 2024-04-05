@@ -19,7 +19,7 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
 
     useEffect(() => {
         getAllNotes()
-    })
+    }, [])
 
     let timerForSearch: ReturnType<typeof setTimeout>
 
@@ -36,9 +36,7 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
     }
 
     const footerProps: FooterPropsType = {
-        deleteAccount,
-        outButtonStyle: styles.outButton,
-        addButtonStyle: styles.addButton
+        deleteAccount
     }
 
     return (
@@ -64,6 +62,7 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
                             <button 
                                 className={styles.logout} 
                                 onClick={logOut}
+                                data-testid="logout-button"
                             ><span>log</span><span>out</span></button>
                         </div>
                     </div>

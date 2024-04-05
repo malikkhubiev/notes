@@ -28,17 +28,21 @@ describe('Modal component', () => {
   it('updates modal message when MobX state changes', () => {
     const newMessage = 'New Message';
     messageObservable.message = newMessage;
+    modalProps = {
+      modalMessage: messageObservable.message
+    };
     const { getByText } = render(<Modal {...modalProps} />);
     const messageElement = getByText(newMessage);
     expect(messageElement).toBeInTheDocument();
   });
 
   it('re-renders modal when MobX state changes', () => {
-    const { getByText, rerender } = render(<Modal {...modalProps} />);
     const newMessage = 'New Message';
     messageObservable.message = newMessage;
-    console.log(messageObservable.message)
-    console.log(modalProps)
+    modalProps = {
+      modalMessage: messageObservable.message
+    };
+    const { getByText, rerender } = render(<Modal {...modalProps} />);
     rerender(<Modal {...modalProps} />);
     const messageElement = getByText(newMessage);
     expect(messageElement).toBeInTheDocument();
