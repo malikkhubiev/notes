@@ -260,23 +260,13 @@
 .Eqq2eP3x5jveLZLYdywS {
   width: 100%;
   height: 100vh;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.amOnGAyA31PECRJSMwIS {
-  font-size: 5vw;
-}
-.NJtGRYDHygR23cWUgU1u {
-  width: 100%;
-  height: 100vh;
-  padding: 2.65vw;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transform: rotate(-15deg) scale(0.7);
+}
+.amOnGAyA31PECRJSMwIS {
+  font-size: 5vw;
 }
 .zZAvYzd97F4QHGcQudHn {
   width: 100%;
