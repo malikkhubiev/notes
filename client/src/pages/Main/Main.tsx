@@ -4,20 +4,23 @@ import { NavLink } from 'react-router-dom'
 import { MainPropsType } from '../../App/App.types'
 import logo from '../../assets/logo.svg'
 import searchIcon from '../../assets/search.png'
-import { NoteType } from '../../types/main.types'
+import { CatalogType, NoteType } from '../../types/main.types'
 import styles from './Main.less'
 import { FooterPropsType } from './Main.types'
 import { Footer } from '../../components/Footer/Footer'
 import { Note } from '../../components/Note/Note'
+import { AddButton } from '../../components/ui/AddButton/AddButton'
 
 export const Main: FC<MainPropsType> = observer(({ notesForShow,
-    getAllNotes, sortNotes, deleteNote, logOut, deleteAccount }) => {
+    getAllCatalogs, getAllNotes, sortNotes,
+    deleteNote, logOut, deleteAccount, catalogs }) => {
 
     const notes: NoteType[] | [] = notesForShow
     const [searchValue, setSearchValue] = useState<string>('')
     const [isNeedInButton, setIsNeedInButton] = useState<boolean>(true)
 
     useEffect(() => {
+        getAllCatalogs()
         getAllNotes()
     }, [])
 
@@ -59,25 +62,43 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
                             />
                         </div>
                         <div className={styles.headerBox}>
-                            <button 
-                                className={styles.logout} 
+                            <button
+                                className={styles.logout}
                                 onClick={logOut}
                                 data-testid="logout-button"
                             ><span>log</span><span>out</span></button>
                         </div>
                     </div>
                     <div className={styles.body}>
-                        <NavLink
-                            className={styles.addButton}
-                            to={`/check:${0}`}
-                        >+</NavLink>
+                        <div className={styles.catalogs_line}>
+                            <span className={styles.catalogs_text}>Catalogs:</span>
+                            {
+                                catalogs.length
+                                &&
+                                catalogs.map(catalog =>
+                                    <button
+                                        className={styles.catalog}
+                                        key={catalog.id}
+                                    >
+                                        {catalog.name}
+                                    </button>
+                                )
+                            }
+                            <NavLink
+                                to="catalogs"
+                                className={styles.catalogs_button}
+                            >
+                            &#128193;
+                            </NavLink>
+                        </div>
+                        <AddButton path={`/check:${0}`} />
                         <div className={styles.notes}>
                             {
                                 notes.length
                                     ?
-                                notes.map(note => <Note key={note.id} {...note} deleteNote={deleteNote} />)
+                                    notes.map(note => <Note key={note.id} {...note} deleteNote={deleteNote} />)
                                     :
-                                "You don't have any notes yet"
+                                    "You don't have any notes yet"
                             }
                         </div>
                     </div>
@@ -90,7 +111,7 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
                             className={styles.showMore}
                         >...</button>
                     }
-                    <Footer { ...footerProps } />
+                    <Footer {...footerProps} />
                 </div>
             </div>
         </div>

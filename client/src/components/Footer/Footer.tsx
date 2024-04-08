@@ -1,11 +1,15 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { FooterPropsType } from '../../pages/Main/Main.types'
 import styles from './Footer.module.less'
+import { ModalInput } from '../ui/ModalKit/ModalInput/ModalInput'
+import { modalCalling } from '../../store/state'
 
 export const Footer: FC<FooterPropsType> = ({ deleteAccount }) => {
 
+    const confirmMessage = useRef<string>("Type in 'I don't care about everything I wrote here'")
     let [password, setPassword] = useState<string>('')
     let [toggleDeleteButton, setToggleDeleteButton] = useState<boolean>(false)
+    let [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
 
     const toggleButtonHandler = () => {
         setToggleDeleteButton(prev => prev = !prev)
@@ -18,16 +22,29 @@ export const Footer: FC<FooterPropsType> = ({ deleteAccount }) => {
     const confirmPasswordHandler = () => {
         toggleButtonHandler()
         const passwordCopy = password; 
-        console.log(123)
-        console.log(passwordCopy)
-        console.log(123)
         if (passwordCopy.trim() !== '') {
-            deleteAccount(password)
-            setPassword(prev => prev = '')
+            setOpenModalConfirm(prev => prev = true)
         }
     }
 
+    const onConfirm = (value: string):void => {
+        let processedValue = `Type in '${value}'`
+        if (processedValue === confirmMessage.current) {
+            deleteAccount(password)
+        }else{
+            modalCalling("Incorrect value")
+        }
+        setPassword(prev => prev = '')
+        setOpenModalConfirm(prev => prev = false)
+    }
+
     return <>
+        {openModalConfirm &&
+        <ModalInput
+            message={`${confirmMessage.current}`}
+            onOkHandler={onConfirm}
+            onCancelHandler={() => console.log("cancel")}
+        />}
         <div className={styles.deleteBox}>
             {
                 !toggleDeleteButton ?

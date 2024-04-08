@@ -2,12 +2,17 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Main } from './Main';
 import { MainPropsType } from '../../App/App.types';
-import { NoteType } from '../../types/main.types';
+import { CatalogType, NoteType } from '../../types/main.types';
 
 // Mocking dependencies
 jest.mock('react-router-dom', () => ({
     NavLink: jest.fn(({ children, ...rest }) => <a {...rest}>{children}</a>)
 }));
+
+const mockCatalogs: CatalogType[] = [
+    { id: 1, name: 'Catalog 1', updatedAt: '2024-04-02', userId: 123 },
+    { id: 1, name: 'Catalog 1', updatedAt: '2024-04-02', userId: 321 },
+];
 
 const mockNotesForShow: NoteType[] = [
     { id: 1, header: 'Note 1', body: 'Body 1', date: '2024-04-01', lastDate: new Date() },
@@ -15,6 +20,7 @@ const mockNotesForShow: NoteType[] = [
 ];
 
 const mockGetAllNotes = jest.fn();
+const mockGetAllCatalogs = jest.fn();
 const mockSortNotes = jest.fn();
 const mockDeleteNote = jest.fn();
 const mockLogOut = jest.fn();
@@ -24,8 +30,10 @@ const mockProps: MainPropsType = {
     getNote: jest.fn(id => {
         return mockNotesForShow.find(note => note.id === id) || null;
     }),
+    catalogs: mockCatalogs,
     notesForShow: mockNotesForShow,
     getAllNotes: mockGetAllNotes,
+    getAllCatalogs: mockGetAllCatalogs,
     sortNotes: mockSortNotes,
     deleteNote: mockDeleteNote,
     logOut: mockLogOut,

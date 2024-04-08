@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError')
-const { User, Note } = require('../models')
+const { User, Note, Catalog } = require('../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator')
@@ -21,7 +21,8 @@ class authController {
             const candidate = await User.findOne({where: { name }})
             if (candidate) return next(ApiError.badRequest('User with the same username is already existing'))
             const hashedPassword = bcrypt.hashSync(password, 3)
-            await User.create({ name, password: hashedPassword })
+            const user = await User.create({ name, password: hashedPassword })
+            await Catalog.create({ userId: user.id, name: "Without catalog" })
             return res.json({message: 'User successfully registered'})
         } catch (e) {
             next(ApiError.badRequest(e.message))

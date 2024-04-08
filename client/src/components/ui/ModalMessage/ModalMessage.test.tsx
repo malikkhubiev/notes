@@ -1,12 +1,12 @@
 import React from 'react';
-import {Modal} from './Modal';
+import {ModalMessage} from './ModalMessage';
 import { render } from '@testing-library/react';
-import { ModalPropsType } from '../../../App/App.types';
+import { ModalMessagePropsType } from '../../../App/App.types';
 import { observable } from 'mobx';
 
 describe('Modal component', () => {
   const initialMessage = 'Initial Message';
-  let modalProps: ModalPropsType;
+  let modalProps: ModalMessagePropsType;
   let messageObservable: { message: string };
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('Modal component', () => {
   });
 
   it('renders modal with initial message', () => {
-    const { getByText } = render(<Modal {...modalProps} />);
+    const { getByText } = render(<ModalMessage {...modalProps} />);
     const messageElement = getByText(initialMessage);
     expect(messageElement).toBeInTheDocument();
   });
@@ -31,7 +31,7 @@ describe('Modal component', () => {
     modalProps = {
       modalMessage: messageObservable.message
     };
-    const { getByText } = render(<Modal {...modalProps} />);
+    const { getByText } = render(<ModalMessage {...modalProps} />);
     const messageElement = getByText(newMessage);
     expect(messageElement).toBeInTheDocument();
   });
@@ -42,8 +42,8 @@ describe('Modal component', () => {
     modalProps = {
       modalMessage: messageObservable.message
     };
-    const { getByText, rerender } = render(<Modal {...modalProps} />);
-    rerender(<Modal {...modalProps} />);
+    const { getByText, rerender } = render(<ModalMessage {...modalProps} />);
+    rerender(<ModalMessage {...modalProps} />);
     const messageElement = getByText(newMessage);
     expect(messageElement).toBeInTheDocument();
   });

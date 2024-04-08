@@ -1,14 +1,15 @@
 import { observer } from 'mobx-react-lite'
 import React, { FC, useEffect } from 'react'
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
-import { CheckNote } from '../components/CheckNote/CheckNote'
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { CheckNote } from '../pages/CheckNote/CheckNote'
 import { ErrorBoundary } from '../components/ErrorBoundary'
-import { Modal } from '../components/ui/Modal/Modal'
+import { ModalMessage } from '../components/ui/ModalMessage/ModalMessage'
 import { Preloader } from '../components/ui/Preloader/Preloader'
 import { Auth } from '../pages/Auth/Auth'
 import { Main } from '../pages/Main/Main'
 import state from '../store/state'
-import { AuthPropsType, CheckNotePropsType, MainPropsType, ModalPropsType } from './App.types'
+import { AuthPropsType, CatalogsPropsType, CheckNotePropsType, MainPropsType, ModalMessagePropsType } from './App.types'
+import { Catalogs } from '../pages/Catalogs/Catalogs'
 
 export const myContext = React.createContext(null)
 
@@ -16,7 +17,9 @@ export const App: FC<{}> = observer(() => {
 
   const mainProps: MainPropsType = {
     notesForShow: state.notesForShow,
+    catalogs: state.catalogs,
     getNote: state.getNote,
+    getAllCatalogs: state.getAllCatalogs,
     getAllNotes: state.getAllNotes,
     sortNotes: state.sortNotes,
     deleteNote: state.deleteNote,
@@ -30,13 +33,22 @@ export const App: FC<{}> = observer(() => {
   }
 
   const checkNoteProps: CheckNotePropsType = {
+    currentNote: state.currentNote,
     getNote: state.getNote,
     addNote: state.addNote,
     editNote: state.editNote,
     deleteNote: state.deleteNote
   }
 
-  const modalProps: ModalPropsType = {
+  const catalogsProps: CatalogsPropsType = {
+    catalogs: state.catalogs,
+    addCatalog: state.addCatalog,
+    getAllCatalogs: state.getAllCatalogs,
+    editCatalog: state.editCatalog,
+    deleteCatalog: state.deleteCatalog,
+  }
+
+  const modalMessageProps: ModalMessagePropsType = {
     modalMessage: state.modalMessage
   }
 
@@ -45,8 +57,8 @@ export const App: FC<{}> = observer(() => {
   }, [])
 
   return <>
-    {state.modalMessage ? <Modal {...modalProps} /> : ''}
-    <Router>
+    {state.modalMessage ? <ModalMessage {...modalMessageProps} /> : ''}
+    <HashRouter>
       <Routes>
         {state.isLoading
           ?
@@ -56,6 +68,7 @@ export const App: FC<{}> = observer(() => {
             <>
               <Route path='' element={<Main {...mainProps} />} />
               <Route path='check:id' element={<ErrorBoundary><CheckNote {...checkNoteProps} /></ErrorBoundary>} />
+              <Route path='catalogs' element={<Catalogs {...catalogsProps} />}/>
               <Route path='*' element={<Navigate to='' />} />
             </>
             :
@@ -63,6 +76,6 @@ export const App: FC<{}> = observer(() => {
           }</>
         }
       </Routes>
-    </Router>
+    </HashRouter>
   </>
 })

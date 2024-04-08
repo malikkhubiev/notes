@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { $authHost, $host } from '../http/index'
-import { NoteType } from '../types/main.types'
-import { AddNoteType, AuthBaseResponse, DeleteAccountType, DeleteNoteType, EditNoteType, getAllNotesResponseType, GetAllNotesType, GetIsAuthType, GetNoteType, LoginType, LogOutType, RegistrationType, SortNotesType } from './state.types'
+import { CatalogType, NoteType } from '../types/main.types'
+import { AddCatalogType, AddNoteType, AuthBaseResponse, DeleteAccountType, DeleteCatalogType, DeleteNoteType, EditCatalogType, EditNoteType, getAllCatalogsResponseType, GetAllCatalogsType, getAllNotesResponseType, GetAllNotesType, GetIsAuthType, GetNotesByCatalogType, getNotesByCatalogTypeResponseType, GetNoteType, LoginType, LogOutType, RegistrationType, SortNotesType } from './state.types'
 
 export const modalCalling = (message: string) => {
     state.modalMessage = message
@@ -16,43 +16,47 @@ export const generalInLogout = (token: string) => {
     state.isAuth = true
 }
 
-export const DateFormatting = (notes: NoteType[]):NoteType[] => {
-    notes.forEach(note => {
-        const dateInDateType = new Date(note.date)
-        const day = dateInDateType.getDate() < 10 ? '0' + dateInDateType.getDate() : dateInDateType.getDate() 
-        const month = dateInDateType.getMonth() < 10 ? '0' + (dateInDateType.getMonth() + 1) : dateInDateType.getMonth() + 1
-        const year = dateInDateType.getFullYear()
-        note.date = `${day}.${month}.${year}`
+export const DateFormatting = (items: any[]): any[] => {
+    items.forEach(item => {
+        const dateParams = ["date", "lastDate", "updatedAt"];
+        dateParams.forEach((param: string) => {
+            if (param) {
+                const dateInDateType = new Date(item[param])
+                const day = dateInDateType.getDate() < 10 ? '0' + dateInDateType.getDate() : dateInDateType.getDate()
+                const month = dateInDateType.getMonth() < 10 ? '0' + (dateInDateType.getMonth() + 1) : dateInDateType.getMonth() + 1
+                const year = dateInDateType.getFullYear()
+                // @ts-ignore
+                item[param] = `${day}.${month}.${year}`
+            }
+        })
     })
-    return notes
+    return items
 }
 
 class State {
-
-    limit:number = 8
-
-    offset:number = -8
-
-    numberOfNotes:number = 0
-
     modalMessage: string = ''
-
     isLoading: boolean = true
 
     userId: null | number = null
-
     isAuth: boolean = false
 
     notes: NoteType[] | [] = []
-
     notesForShow: NoteType[] | [] = []
+    currentNote: NoteType
+    numberOfNotes: number = 0
+    limit: number = 8
+    offset: number = -8
+
+    numberOfCatalogs: number = 0
+    catalogs: CatalogType[] | [] = [] // changeType
+    currentCatalog: CatalogType | null = null // changeType mb
 
     constructor() {
         makeAutoObservable(this)
     }
 
     // Auth Actions
-    registration:RegistrationType = async (name, password) => {
+    registration: RegistrationType = async (name, password) => {
         try {
             const response = await $host.post('/auth/registration', { name, password })
             modalCalling(response.data.message)
@@ -62,7 +66,7 @@ class State {
         }
     }
 
-    deleteAccount:DeleteAccountType = async (password) => {
+    deleteAccount: DeleteAccountType = async (password) => {
         try {
             await $host.delete(`/auth/deleteAccount/:${this.userId}/:${password}`)
             localStorage.removeItem('token')
@@ -76,10 +80,10 @@ class State {
         }
     }
 
-    login:LoginType = async (name, password) => {
+    login: LoginType = async (name, password) => {
         try {
             const response = await $host.post<AuthBaseResponse>('/auth/login', { name, password })
-            const {userId, token} = response.data
+            const { userId, token } = response.data
             this.userId = userId
             generalInLogout.call(this, token)
         } catch (e) {
@@ -87,37 +91,37 @@ class State {
         }
     }
 
-    getIsAuth:GetIsAuthType = async () => {
+    getIsAuth: GetIsAuthType = async () => {
         try {
             const response = await $authHost.get<AuthBaseResponse>('/auth/auth')
-            const {userId, token} = response.data
+            const { userId, token } = response.data
             this.userId = userId
             generalInLogout.call(this, token)
-            this.isLoading = false 
+            this.isLoading = false
         } catch (e) {
             this.isLoading = false
         }
     }
 
-    logOut:LogOutType = () => {
+    logOut: LogOutType = () => {
         localStorage.removeItem('token')
         this.isAuth = false
     }
 
     // Notes Actions
-    getNote:GetNoteType = (id) => {
+    getNote: GetNoteType = (id) => {
         let note
-        this.notes.forEach((el:NoteType) => {
+        this.notes.forEach((el: NoteType) => {
             if (el.id === id) note = el
         })
         return note
     }
 
-    getAllNotes:GetAllNotesType = async() => {
+    getAllNotes: GetAllNotesType = async () => {
         try {
             if (this.numberOfNotes < this.offset) return
-            this.offset+=this.limit
-            const response = await $host.get<getAllNotesResponseType>(`/note/:${this.userId}/:${this.limit}/:${this.offset}`)
+            this.offset += this.limit
+            const response = await $authHost.get<getAllNotesResponseType>(`/note/:${this.limit}/:${this.offset}`)
             this.numberOfNotes = response.data.count
             this.notes = [...this.notes, ...DateFormatting(response.data.rows)]
             this.notesForShow = this.notes
@@ -126,10 +130,23 @@ class State {
         }
     }
 
-    addNote:AddNoteType = async (header, body, date, lastDate) => {
+    getNotesByCatalog: GetNotesByCatalogType = async (id) => {
         try {
-            const response = await $host.post<NoteType>('/note/', {
-                header, body, date, lastDate, userId: this.userId
+            if (this.numberOfNotes < this.offset) return
+            this.offset += this.limit
+            const response = await $authHost.get<getNotesByCatalogTypeResponseType>(`/note/${id}/:${this.limit}/:${this.offset}`)
+            this.numberOfNotes = response.data.count
+            this.notes = [...this.notes, ...DateFormatting(response.data.rows)]
+            this.notesForShow = this.notes
+        } catch (e) {
+            modalCalling(e.response.data.message)
+        }
+    }
+
+    addNote: AddNoteType = async (header, body, date, lastDate, color) => {
+        try {
+            const response = await $authHost.post<NoteType>('/note/', {
+                header, body, date, lastDate, color, catalogId: this.currentCatalog
             })
             const formattedData = DateFormatting([response.data])[0]
             this.numberOfNotes++
@@ -141,10 +158,10 @@ class State {
         }
     }
 
-    deleteNote:DeleteNoteType = async (id) => {
+    deleteNote: DeleteNoteType = async (id) => {
         try {
-            await $host.delete(`/note/:${id}`)
-            this.notes.forEach((note:NoteType, ind: number) => note.id === id && this.notes.splice(ind, 1))
+            await $authHost.delete(`/note/:${id}`)
+            this.notes.forEach((note: NoteType, ind: number) => note.id === id && this.notes.splice(ind, 1))
             this.notesForShow = this.notes
             this.numberOfNotes--
             this.offset--
@@ -153,22 +170,22 @@ class State {
         }
     }
 
-    editNote:EditNoteType = async (id, header, body, lastDate) => {
+    editNote: EditNoteType = async (id, header, body, lastDate) => {
         try {
-            const response = await $host.put<NoteType>('/note/edit', {
+            const response = await $authHost.put<NoteType>('/note/edit', {
                 id, header, body, lastDate
             })
-            const editedNote:NoteType = response.data
+            const editedNote: NoteType = response.data
             this.notes.forEach((note: NoteType, ind: number) => note.id === editedNote.id && this.notes.splice(ind, 1))
             const formattedNote = DateFormatting([editedNote])
             this.notes = [...formattedNote, ...this.notes]
-            this.notesForShow = this.notes           
+            this.notesForShow = this.notes
         } catch (e) {
             modalCalling(e.response.data.message)
         }
     }
 
-    sortNotes:SortNotesType = async(value) => {
+    sortNotes: SortNotesType = async (value) => {
         if (value.trim() === '') {
             this.notes = []
             this.notesForShow = this.notes
@@ -176,11 +193,57 @@ class State {
             this.numberOfNotes = 0
             return this.getAllNotes()
         }
-        const response = await $host.get(`/note/:${this.userId}/:${this.numberOfNotes}/:${0}`)
+        const response = await $authHost.get(`/note/:${this.numberOfNotes}/:${0}`)
         const formattedNotes = DateFormatting(response.data.rows)
-        const sortedNotes: NoteType[] = formattedNotes.filter((note)=>note.header.toLowerCase().includes(value.toLowerCase()))
+        const sortedNotes: NoteType[] = formattedNotes.filter((note) => note.header.toLowerCase().includes(value.toLowerCase()))
         this.notes = sortedNotes
         this.notesForShow = this.notes
+    }
+
+    // Catalog Actions
+    getAllCatalogs: GetAllCatalogsType = async () => { // changeType
+        try {
+            const response = await $authHost.get<getAllCatalogsResponseType>(`/catalog/`) // changeType
+            this.numberOfCatalogs = response.data.count
+            this.catalogs = DateFormatting(response.data.rows)
+        } catch (e) {
+            modalCalling(e.response.data.message)
+        }
+    }
+
+    addCatalog: AddCatalogType = async (name) => { // changeType
+        try {
+            const response = await $authHost.post<CatalogType>('/catalog/', { // changeType
+                name
+            })
+            const newCatalog = DateFormatting([response.data])[0]
+            this.catalogs.unshift(newCatalog as never)
+        } catch (e) {
+            modalCalling(e.response.data.message)
+        }
+    }
+
+    deleteCatalog: DeleteCatalogType = async (id) => {// changeType
+        try {
+            await $authHost.delete(`/catalog/:${id}`)
+            this.catalogs = this.catalogs.filter((item: any) => item.id !== id) // changeType 
+        } catch (e) {
+            modalCalling(e.response.data.message)
+        }
+    }
+
+    editCatalog: EditCatalogType = async (id, name) => {// changeType
+        try {
+            const response = await $authHost.put<NoteType>('/catalog/editName', { // changeType
+                id, name
+            });
+            const editedCatalog = DateFormatting([response.data])[0]
+            this.catalogs = this.catalogs.map(
+                (item: any) => item.id === id ? editedCatalog : item // changeType
+            )
+        } catch (e) {
+            modalCalling(e.response.data.message)
+        }
     }
 }
 

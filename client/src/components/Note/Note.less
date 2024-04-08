@@ -1,16 +1,13 @@
 .note{
-    margin-top: 4.6vw;
+    margin-bottom: 4.6vw;
     cursor: pointer;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     z-index: 2;
-    color: #000;
+    color: #0c0c0c;
     transition: 0.5s;
-    &:nth-child(1){
-        margin-top: 0;
-    }
 }
 .leftSide{
     width: 22%;
@@ -19,14 +16,14 @@
     justify-content: space-between;
     align-items: flex-end;
     flex-direction: column;
-    border-right: 0.2vw solid #000;
+    border-right: 0.2vw solid #fff;
 }
 .rightSide{
     width: 78%;
     padding-left: 1.3vw;
     padding-top: 0;
     z-index: 2;
-    background-color: #ffdcc9;
+    background-color: transparent;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -60,8 +57,14 @@
     margin-top: 1.4vw;
     background-color: transparent;
     border: 0;
+    padding: 10px 0 10px 50px;
+    transition: 0.5s;
     cursor: pointer;
     font-size: 2.2vw;
+}
+.delete:hover{
+    background-color: #fff;
+    color: #000;
 }
 
 @media(max-width: 1200px){
@@ -122,18 +125,18 @@
         width: 39%;
     }
     .header{
-        font-size: 15vw;
+        font-size: 30px;
     }
     .body{
         margin: 0;
-        font-size: 13vw;
+        margin-top: 30px;
+        font-size: 25px;
     }
     .date{
-        margin-top: 2vw;
-        font-size: 7.5vw;
+        font-size: 27px;
     }
     .delete{
-        font-size: 8vw;
-        margin-top: 11.3vw;
+        font-size: 25px;
+        margin-top: 30px;
     }
 }

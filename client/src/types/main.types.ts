@@ -5,3 +5,9 @@ export interface NoteType {
     date: Date | string
     lastDate: Date
 }
+export interface CatalogType {
+    id: number
+    name: string
+    updatedAt: string
+    userId: number
+}

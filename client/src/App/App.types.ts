@@ -1,10 +1,12 @@
-import { AddNoteType, DeleteAccountType, DeleteNoteType, EditNoteType, GetAllNotesType,
+import { AddCatalogType, AddNoteType, DeleteAccountType, DeleteCatalogType, DeleteNoteType, EditCatalogType, EditNoteType, GetAllCatalogsType, GetAllNotesType,
     GetNoteType, LoginType, LogOutType, RegistrationType, SortNotesType } from "../store/state.types";
-import { NoteType } from "../types/main.types";
+import { CatalogType, NoteType } from "../types/main.types";
 
 export interface MainPropsType {
     notesForShow: NoteType[] | []
+    catalogs: CatalogType[] | []
     getNote: GetNoteType
+    getAllCatalogs: GetAllCatalogsType
     getAllNotes: GetAllNotesType
     sortNotes: SortNotesType
     deleteNote: DeleteNoteType
@@ -18,10 +20,19 @@ export interface AuthPropsType {
 }
 
 export interface CheckNotePropsType {
+    currentNote: NoteType
     getNote: GetNoteType
     addNote: AddNoteType
     editNote: EditNoteType
     deleteNote: DeleteNoteType
 }
 
-export interface ModalPropsType { modalMessage: string }
+export interface CatalogsPropsType {
+    catalogs: CatalogType[] | []
+    addCatalog: AddCatalogType
+    getAllCatalogs: GetAllCatalogsType
+    editCatalog: EditCatalogType
+    deleteCatalog: DeleteCatalogType
+}
+
+export interface ModalMessagePropsType { modalMessage: string }

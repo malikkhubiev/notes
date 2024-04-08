@@ -21,8 +21,19 @@ const Note = sequelize.define('note', {
     },
     header: {type: DataTypes.STRING, allowNull: false},
     body: {type: DataTypes.STRING},
+    color: {type: DataTypes.STRING, defaultValue: "#ffffff"},
     date: {type: DataTypes.DATE, allowNull: false},
     lastDate: {type: DataTypes.DATE, allowNull: false}
+})
+
+const Catalog = sequelize.define('catalog', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+    },
+    name: {type: DataTypes.STRING, allowNull: false}
 })
 
 User.hasMany(Note, {
@@ -33,7 +44,24 @@ User.hasMany(Note, {
 })
 Note.belongsTo(User)
 
+User.hasMany(Catalog, {
+    onDelete: 'cascade',
+    foreignKey: {
+        allowNull: false
+    }
+})
+Catalog.belongsTo(User)
+
+Catalog.hasMany(Note, {
+    onDelete: 'cascade',
+    foreignKey: {
+        allowNull: false
+    }
+})
+Note.belongsTo(Catalog)
+
 module.exports = {
     User,
+    Catalog,
     Note
 }
