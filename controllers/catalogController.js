@@ -50,7 +50,7 @@ class noteController {
             if (!name)
                 return next(ApiError.badRequest("You didn't specify the name of the catalog"))
             if (name == "Without catalog")
-                return next(ApiError.badRequest("You can't change the name of this catalog"))
+                return next(ApiError.badRequest("You can't call the catalog that way"))
 
             const mayBeExisting = await Catalog.findOne({where: {userId, name}})
             if (mayBeExisting)

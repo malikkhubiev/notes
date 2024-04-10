@@ -3,6 +3,7 @@ import { CatalogType, NoteType } from "../types/main.types"
 export interface AuthBaseResponse {
     userId: number
     token: string
+    mainCatalogId: number
 }
 
 export type RegistrationType = (name: string, password: string) => void
@@ -12,9 +13,10 @@ export type GetIsAuthType = () => void
 export type LogOutType = () => void
 
 export type GetNoteType = (id: number) => any
-export type GetAllNotesType = () => any
-export type GetNotesByCatalogType = (id: number) => any
+export type GetAllNotesType = (loadMore?: boolean) => any
+export type GetNotesByCatalogType = (catalogName: string) => void
 export type AddNoteType = (header: string, body: string, date: Date, lastDate: Date, color: string) => void
+export type SendNoteType = (targetNote: NoteType, catalogId: number) => void
 export type DeleteNoteType = (id: number) => void
 export type EditNoteType = (id: number, header: string, body: string, lastDate: Date) => void
 export type SortNotesType = (value: string) => void

@@ -4,7 +4,9 @@ import { NotePropsType } from './Note.types'
 import styles from './Note.less'
 import { ModalConfirm } from '../ui/ModalKit/ModalConfirm/ModalConfirm'
 
-export const Note: FC<NotePropsType> = memo(({ id, header, body, date, lastDate, deleteNote }) => {
+export const Note: FC<NotePropsType> = memo(
+    ({ id, header, body, color, lastDate,
+        deleteNote, onSendNote }) => {
 
     let [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
 
@@ -21,8 +23,19 @@ export const Note: FC<NotePropsType> = memo(({ id, header, body, date, lastDate,
         setOpenModalConfirm(prev => prev = false)
     }
 
+    const stylesheet = `
+        .a${id}{
+            width: 5px;
+            height: 120px;
+            background-color: ${color};
+        }
+    `
+
     return (
         <>
+            <style>
+                {stylesheet}
+            </style>
             {openModalConfirm &&
                 <ModalConfirm
                     message="Are you sure you want to delete this note?"
@@ -37,12 +50,14 @@ export const Note: FC<NotePropsType> = memo(({ id, header, body, date, lastDate,
                         className={styles.delete}
                     >delete</button>
                 </div>
+                <div className={`a${id}`}></div>
                 <NavLink
                     className={styles.rightSide}
                     to={`/check:${id}`}>
                     <h1 className={styles.header}>{header}</h1>
                     <h2 className={styles.body}>{body}</h2>
                 </NavLink>
+                <button onClick={() => onSendNote(id)}>&rarr;</button>
             </div>
         </>
     )

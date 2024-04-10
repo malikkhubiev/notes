@@ -25,9 +25,6 @@ export const Auth: FC<AuthPropsType> = ({ login, registration }) => {
     }
 
     const submitHandler = () => {
-        console.log(2)
-        console.log(registration)
-        console.log(isLogin)
         isLogin
             ?
             login(username, password)

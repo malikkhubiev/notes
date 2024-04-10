@@ -51,7 +51,17 @@ class authController {
             const isPassword = bcrypt.compareSync(password, user.password)
             if (!isPassword) return next(ApiError.internal('Wrong username or password'))
             const token = generateJwt(user.id, user.name)
-            return res.json({userId: user.id, token})
+            const mainCatalog = await Catalog.findOne({
+                where: {
+                    name: "Without catalog",
+                    userId: req.user.id
+                }
+            })
+            return res.json({
+                userId: req.user.id,
+                token,
+                mainCatalogId: mainCatalog.id
+            })
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
@@ -59,7 +69,17 @@ class authController {
     getIsAuth = async (req, res, next) => {
         try {
             const token = generateJwt(req.user.id, req.user.name)
-            return res.json({userId: req.user.id, token})
+            const mainCatalog = await Catalog.findOne({
+                where: {
+                    name: "Without catalog",
+                    userId: req.user.id
+                }
+            })
+            return res.json({
+                userId: req.user.id,
+                token,
+                mainCatalogId: mainCatalog.id
+            })
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

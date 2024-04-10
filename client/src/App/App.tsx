@@ -18,9 +18,12 @@ export const App: FC<{}> = observer(() => {
   const mainProps: MainPropsType = {
     notesForShow: state.notesForShow,
     catalogs: state.catalogs,
+    currentCatalog: state.currentCatalog,
     getNote: state.getNote,
+    sendNote: state.sendNote,
     getAllCatalogs: state.getAllCatalogs,
     getAllNotes: state.getAllNotes,
+    getNotesByCatalog: state.getNotesByCatalog,
     sortNotes: state.sortNotes,
     deleteNote: state.deleteNote,
     logOut: state.logOut,

@@ -10,7 +10,12 @@ class noteController {
             limit = limit.slice(1)
             offset = offset.slice(1)
             
-            const response = await Note.findAndCountAll({offset, limit, where: {userId}, order: [['lastDate', 'DESC'] ]})
+            const response = await Note.findAndCountAll({
+                offset, limit,
+                where: {userId},
+                order: [['lastDate', 'DESC'] ],
+                include: Catalog
+            })
             return res.send(response)
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -28,42 +33,43 @@ class noteController {
             next(ApiError.badRequest(e.message))
         }
     }
-    getByCatalog = async (req, res, next) => {
-        try {
-            let { catalogId, limit, offset } = req.params
+    // getByCatalog = async (req, res, next) => {
+    //     try {
+    //         let { catalogId, limit, offset } = req.params
 
-            const userId = req.user.id
-            catalogId = catalogId.slice(1)
-            limit = limit.slice(1)
-            offset = offset.slice(1)
+    //         const userId = req.user.id
+    //         catalogId = catalogId.slice(1)
+    //         limit = limit.slice(1)
+    //         offset = offset.slice(1)
             
-            const response = await Note.findAndCountAll({
-                offset, limit,
-                where: {
-                    userId,
-                    catalogId
-                },
-                order: [['lastDate', 'DESC'] ]
-            })
-            return res.send(response)
-        } catch (e) {
-            next(ApiError.badRequest(e.message))
-        }
-    }
+    //         const response = await Note.findAndCountAll({
+    //             offset, limit,
+    //             where: {
+    //                 userId,
+    //                 catalogId
+    //             },
+    //             order: [['lastDate', 'DESC'] ]
+    //         })
+    //         return res.send(response)
+    //     } catch (e) {
+    //         next(ApiError.badRequest(e.message))
+    //     }
+    // }
     addNote = async (req, res, next) => {
         try {
             const userId = req.user.id
- 
+            console.log(userId)
             let { header, body, date, lastDate, catalogId, color } = req.body
             if (!header) return next(ApiError.badRequest('There is no header'))
             if (!date || !lastDate || !userId) return next(ApiError.badRequest('You are not allowed to add notes'))
             if (!body) body = ''
-            let catalog
-            if (!catalogId) catalog = await Catalog.findOne({where: {
-                name: "Without catalog",
-                userId
-            }})
-            catalogId = catalog.id
+            if (!catalogId) {
+                const catalog = await Catalog.findOne({where: {
+                    name: "Without catalog",
+                    userId
+                }})
+                catalogId = catalog.id
+            } 
 
             const note = await Note.create({ header, body, date, lastDate, catalogId, color, userId })
             return res.json(note)
@@ -110,7 +116,7 @@ class noteController {
             if (!catalogId) catalogId = null
 
             await Note.update({catalogId}, {where: {id, userId}})
-            const note = await Note.findOne({where: {id, userId}})
+            const note = await Note.findOne({where: {id, userId}, include: Catalog})
             return res.json(note)
         } catch (e) {
             next(ApiError.badRequest(e.message))

@@ -3,18 +3,18 @@ import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { CheckNotePropsType } from '../../App/App.types'
 import styles from './CheckNote.less'
 
-export const CheckNote: FC<CheckNotePropsType> = memo(({ getNote, addNote, editNote, deleteNote }) => {
+export const CheckNote: FC<CheckNotePropsType> = memo((
+    { getNote, addNote, editNote, deleteNote }) => {
 
     const maxSizeOfHeader = 5000
     const maxSizeOfBody = 95000
-
-    const color = "#ffffff" // Заглушка. Реализуй
 
     const isAddButton: boolean = useLocation().pathname === '/check:0'
     const noteId: number = +useParams().id.slice(1)
 
     const note = getNote(noteId)
 
+    let [color, setColor] = useState<string>(!isAddButton ? note.color : '#ffffff')
     let [header, setHeader] = useState<string>(!isAddButton ? note.header : '')
     let [body, setBody] = useState<string>(!isAddButton ? note.body : '')
 
@@ -39,7 +39,6 @@ export const CheckNote: FC<CheckNotePropsType> = memo(({ getNote, addNote, editN
         if (header === '' && body === '') return deleteNote(note.id)
         const lastDate = new Date()
         editNote(note.id, header, body, lastDate)
-
     }
 
     const headerHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +47,11 @@ export const CheckNote: FC<CheckNotePropsType> = memo(({ getNote, addNote, editN
 
     const bodyHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setBody(prev => prev = e.target.value)
+    }
+
+    const changeColorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.value)
+        setColor(prev => prev = e.target.value)
     }
 
     return (
@@ -67,6 +71,11 @@ export const CheckNote: FC<CheckNotePropsType> = memo(({ getNote, addNote, editN
                 </div>
                 <div className={styles.center}>
                     <div className={styles.fieldContainer}>
+                        <input
+                            onChange={changeColorHandler}
+                            value={color}
+                            type="color"
+                        />
                         <span className={styles.counter}>
                             {
                                 header.length > maxSizeOfHeader

@@ -1,13 +1,17 @@
 import { AddCatalogType, AddNoteType, DeleteAccountType, DeleteCatalogType, DeleteNoteType, EditCatalogType, EditNoteType, GetAllCatalogsType, GetAllNotesType,
-    GetNoteType, LoginType, LogOutType, RegistrationType, SortNotesType } from "../store/state.types";
+    GetNotesByCatalogType,
+    GetNoteType, LoginType, LogOutType, RegistrationType, SendNoteType, SortNotesType } from "../store/state.types";
 import { CatalogType, NoteType } from "../types/main.types";
 
 export interface MainPropsType {
     notesForShow: NoteType[] | []
     catalogs: CatalogType[] | []
+    currentCatalog: CatalogType
     getNote: GetNoteType
+    sendNote: SendNoteType
     getAllCatalogs: GetAllCatalogsType
     getAllNotes: GetAllNotesType
+    getNotesByCatalog: GetNotesByCatalogType
     sortNotes: SortNotesType
     deleteNote: DeleteNoteType
     logOut: LogOutType

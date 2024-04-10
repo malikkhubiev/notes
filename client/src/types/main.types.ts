@@ -3,7 +3,9 @@ export interface NoteType {
     header: string
     body: string
     date: Date | string
+    color: string
     lastDate: Date
+    catalog: CatalogType
 }
 export interface CatalogType {
     id: number

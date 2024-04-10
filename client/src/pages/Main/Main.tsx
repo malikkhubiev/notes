@@ -4,20 +4,24 @@ import { NavLink } from 'react-router-dom'
 import { MainPropsType } from '../../App/App.types'
 import logo from '../../assets/logo.svg'
 import searchIcon from '../../assets/search.png'
-import { CatalogType, NoteType } from '../../types/main.types'
-import styles from './Main.less'
-import { FooterPropsType } from './Main.types'
 import { Footer } from '../../components/Footer/Footer'
 import { Note } from '../../components/Note/Note'
 import { AddButton } from '../../components/ui/AddButton/AddButton'
+import { NoteType } from '../../types/main.types'
+import styles from './Main.less'
+import { FooterPropsType } from './Main.types'
+import { ModalList } from '../../components/ui/ModalKit/ModalList/ModalList'
 
-export const Main: FC<MainPropsType> = observer(({ notesForShow,
-    getAllCatalogs, getAllNotes, sortNotes,
-    deleteNote, logOut, deleteAccount, catalogs }) => {
+export const Main: FC<MainPropsType> = observer(({ notesForShow, sendNote,
+    getAllCatalogs, getAllNotes, sortNotes, getNotesByCatalog,
+    deleteNote, logOut, deleteAccount, catalogs, currentCatalog }) => {
 
     const notes: NoteType[] | [] = notesForShow
     const [searchValue, setSearchValue] = useState<string>('')
     const [isNeedInButton, setIsNeedInButton] = useState<boolean>(true)
+    
+    let [choosedNote, setChoosedNote] = useState<NoteType | null>(null)
+    let [openModalList, setOpenModalList] = useState<boolean>(false)
 
     useEffect(() => {
         getAllCatalogs()
@@ -42,8 +46,37 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
         deleteAccount
     }
 
+    const chooseCatalog = (name: string) => {
+        getNotesByCatalog(name)
+    }
+
+    const modalOnChooseHandler = (id: number) => {
+        setOpenModalList(prev => prev = false)
+        sendNote(choosedNote, id)
+    }
+
+    const modalOnCloseHandler = () => {
+        setOpenModalList(prev => prev = false)
+    }
+
+    const sendNoteHandler = (id: number) => {
+        notes.forEach((note: NoteType) => {
+            if (note.id === id) {
+                setChoosedNote(prev => prev = note)
+            }
+        })
+        setOpenModalList(prev => prev = true)
+    }
+
     return (
         <div className={styles.main}>
+            {openModalList &&
+                <ModalList
+                    message="Select the target catalog"
+                    list={catalogs}
+                    onOkHandler={modalOnChooseHandler}
+                    onCancelHandler={modalOnCloseHandler}
+                />}
             <div className={styles.container}>
                 <div className={styles.wrap}>
                     <div className={styles.header}>
@@ -77,8 +110,12 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
                                 &&
                                 catalogs.map(catalog =>
                                     <button
-                                        className={styles.catalog}
+                                        className={
+                                            catalog.name === currentCatalog?.name ?
+                                            styles.currentCatalog : styles.catalog
+                                        }
                                         key={catalog.id}
+                                        onClick={() => chooseCatalog(catalog.name)}
                                     >
                                         {catalog.name}
                                     </button>
@@ -96,7 +133,14 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
                             {
                                 notes.length
                                     ?
-                                    notes.map(note => <Note key={note.id} {...note} deleteNote={deleteNote} />)
+                                    notes.map(note =>
+                                        <Note
+                                            key={note.id}
+                                            {...note}
+                                            deleteNote={deleteNote}
+                                            onSendNote={sendNoteHandler}
+                                        />
+                                    )
                                     :
                                     "You don't have any notes yet"
                             }
@@ -107,7 +151,7 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow,
                     {
                         isNeedInButton &&
                         <button
-                            onClick={getAllNotes}
+                            onClick={() => getAllNotes(true)}
                             className={styles.showMore}
                         >...</button>
                     }

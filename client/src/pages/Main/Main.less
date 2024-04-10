@@ -99,8 +99,10 @@ input{
 }
 .catalogs_text{
     font-size: 40px;
+    margin-right: 20px;
 }
 .catalog{
+    margin-right: 20px;
     border: 0;
     color: #fff;
     cursor: pointer;
@@ -112,14 +114,18 @@ input{
     color: #000;
     background-color: #fff;
 }
-.catalog::after{
-    content: "/";
-    color: #fff;
-    font-size: 30px;
-    margin-left: 30px;
-}
-.catalog:hover::after{
+.currentCatalog {
+    margin-right: 20px;
     color: #000;
+    background-color: #fff;
+    border: 0;
+    cursor: pointer;
+    font-size: 30px;
+    padding: 10px 20px;
+}
+.currentCatalog:hover{
+    color: #000;
+    background-color: #fff;
 }
 .catalogs_button{
     font-size: 30px;
