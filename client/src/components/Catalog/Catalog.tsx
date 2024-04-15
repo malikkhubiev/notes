@@ -57,24 +57,19 @@ export const Catalog: FC<CatalogPropsType> = memo(
                         onCancelHandler={cancelHandler}
                     />}
                 <div className={styles.catalog}>
+                    {name !== "Without catalog" &&
+                        <button
+                            onClick={editHandler}
+                            className={styles.side}
+                        >&#9998;</button>
+                    }
                     <div className={styles.catalog_body}>
-                        <div>
-                            <span className={styles.name}>{name}</span>
-                            {name !== "Without catalog" &&
-                                <button
-                                    onClick={editHandler}
-                                    className={styles.edit}
-                                >&#9998;</button>
-                            }
-                        </div>
-                        <div>
-                            <span className={styles.date}>{updatedAt}</span>
-                        </div>
+                        <span className={styles.name}>{name}</span>
                     </div>
                     {name !== "Without catalog" &&
                         <button
                             onClick={deleteHandler}
-                            className={styles.delete}
+                            className={styles.side}
                         >del</button>
                     }
                 </div>

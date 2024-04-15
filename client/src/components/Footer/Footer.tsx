@@ -38,12 +38,16 @@ export const Footer: FC<FooterPropsType> = ({ deleteAccount }) => {
         setOpenModalConfirm(prev => prev = false)
     }
 
+    const onCancelHandler = () => {
+        setOpenModalConfirm(prev => prev = false)
+    } 
+
     return <>
         {openModalConfirm &&
         <ModalInput
             message={`${confirmMessage.current}`}
             onOkHandler={onConfirm}
-            onCancelHandler={() => console.log("cancel")}
+            onCancelHandler={onCancelHandler}
         />}
         <div className={styles.deleteBox}>
             {

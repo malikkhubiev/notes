@@ -54,11 +54,11 @@ class authController {
             const mainCatalog = await Catalog.findOne({
                 where: {
                     name: "Without catalog",
-                    userId: req.user.id
+                    userId: user.id
                 }
             })
             return res.json({
-                userId: req.user.id,
+                userId: user.id,
                 token,
                 mainCatalogId: mainCatalog.id
             })

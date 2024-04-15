@@ -1,94 +1,86 @@
-.main{
+.outer {
     width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fff;
+}
+
+.main {
+    padding: 50px;
+    display: flex;
+    background-color: #000;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
-.label{
-    font-size: 25px;
+
+.label {
+    margin-bottom: 45px;
+    font-size: 20px;
 }
-.deciding{
+
+.deciding {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2.65vw;
-    &Button{
+    margin-bottom: 45px;
+
+    &Button {
         cursor: pointer;
-        font-size: 6.2vw;
+        font-size: 30px;
         border: 0;
         background-color: transparent;
+        transition: 0.5s;
+        padding: 15px;
+
+        &:hover {
+            background-color: #fff;
+            color: #000;
+        }
     }
-    span{
-        font-size: 6.2vw;
-        margin: 0 3.2vw;
+
+    span {
+        font-size: 30px;
+        margin: 0 15px;
     }
 }
-.field{
-    width: 100%;
-    font-size: 2.8vw;
-    padding: 2vw 3.2vw;
-    margin-bottom: 2.65vw;
-    border: 0.1vw solid #fff;
+
+.selected {
+    background-color: #fff;
+    color: #000;
+}
+
+.field {
+    width: 350px;
+    font-size: 25px;
+    padding: 30px 45px;
+    margin-bottom: 45px;
+    border: 2px solid #fff;
     background-color: transparent;
 }
-.submit{
-    padding: 4vw 8vw;
-    font-size: 2.8vw;
+
+.submit {
+    padding: 30px 60px;
+    font-size: 25px;
     background-color: transparent;
     cursor: pointer;
     color: #fff;
-    border: 0.1vw solid #fff;
+    transition: 0.5s;
+    border: 2px solid #fff;
+
+    &:hover {
+        background-color: #fff;
+        color: #000;
+    }
 }
 
-@media(max-width: 1200px){
-    .field{
-        padding: 4vw 6.2vw;
-        font-size: 5.8vw;
-    }
-    .submit{
-        padding: 8vw 0;
-        font-size: 5.8vw;
-    }
-}
-@media(max-width: 992px){
-    .field{
-        padding: 6vw 6.2vw;
-        font-size: 6.8vw;
-    }
-    .submit{
-        padding: 12vw 0;
-        font-size: 6.8vw;
-    }
-}
-@media(max-width: 768px){
-    .decidingButton{
-        font-size: 8vw;
-    }
-    .field{
-        padding: 6vw 6.2vw;
-        font-size: 6.8vw;
-    }
-    .submit{
-        padding: 12vw 0;
-        font-size: 6.8vw;
-    }
-}
-@media(max-width: 575px){
-    .rotate{
-        margin-left: 9vw;
-    }
-    .decidingButton{
-        font-size: 10vw;
-    }
-    .field{
-        font-size: 7.8vw;
-        padding: 6vw 7.2vw;
-    }
-    .submit{
-        padding: 14vw 0;
-        font-size: 7.8vw;
+@media (max-width: 575px) {
+    .main {
+        width: 100%;
+        height: 100vh;
+        padding: 0;
     }
 }

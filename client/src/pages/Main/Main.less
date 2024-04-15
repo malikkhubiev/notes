@@ -21,7 +21,7 @@ input{
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    padding: 0 19.09910295333249vw;
+    padding: 0 19%;
 }
 .wrap{
     width: 100%;
@@ -36,14 +36,14 @@ input{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 1.5vw;
+    padding-top: 15px;
     &Box{
         display: flex;
         justify-content: center;
         align-items: center;
         &:nth-child(2){
             width: 100%;
-            margin: 0 0.7vw;
+            margin: 0 25px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -52,54 +52,77 @@ input{
     }
 }
 .logo{
-    width: 6.2vw;
+    width: 120px;
 }
 .search{
     width: 100%;
-    height: 4.68vw;
-    border: 0.1vw solid #fff;
-    border-radius: 3vw;
+    height: 100px;
+    border: 2px solid transparent;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-radius: 50px;
     background-color: transparent;
-    padding: 0 6.4vw;
-    font-size: 1.5vw;
+    font-size: 30px;
+    padding-left: 80px;
+    transition: 0.5s;
+}
+.search:hover{
+    border: 2px solid #fff;
 }
 .searchIcon{
     position: absolute;
     top: 50%;
-    left: 2.8vw;
+    left: 35px;
     transform: translateY(-50%);
-    width: 1.35vw;
+    width: 25px;
 }
 .logout{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 6.2vw;
-    height: 6.2vw;
-    font-size: 1.8vw;
+    width: 120px;
+    height: 120px;
+    font-size: 35px;
     cursor: pointer;
     background-color: transparent;
-    border: 0.1vw solid #fff;
+    border: 2px solid #fff;
+    transition: 0.5s;
+}
+.logout:hover{
+    background-color: #fff;
+}
+.logout span{
+    color: #fff;
+}
+.logout:hover span{
+    color: #000;
 }
 .body{
     width: 100%;
-    padding-top: 1.65vw;
     display: flex;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: center;
     flex-direction: column;
 }
-.catalogs_line{
+.catalogs{
     display: flex;
     width: 100%;
     justify-content: center;
     align-items: center;
     margin-bottom: 50px;
 }
+.catalogs_line{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    max-width: 50%;
+    margin: 15px 35px 0;
+    padding-bottom: 10px;
+    overflow-x: scroll;
+}
 .catalogs_text{
-    font-size: 40px;
-    margin-right: 20px;
+    font-size: 30px;
 }
 .catalog{
     margin-right: 20px;
@@ -109,6 +132,7 @@ input{
     font-size: 30px;
     padding: 10px 20px;
     background-color: transparent;
+    white-space: nowrap;
 }
 .catalog:hover{
     color: #000;
@@ -122,28 +146,29 @@ input{
     cursor: pointer;
     font-size: 30px;
     padding: 10px 20px;
+    white-space: nowrap;
 }
 .currentCatalog:hover{
     color: #000;
     background-color: #fff;
 }
-.catalogs_button{
+.catalog_icon{
+    width: 35px;
+}
+.no_notes{
+    text-align: center;
     font-size: 30px;
-    color: #fff;
 }
 .notes{
-    padding-top: 3.2vw;
-    width: 38.19820590666498vw;
-    height: auto;
+    margin-top: 50px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    font-size: 2vw;
 }
 .footer{
     width: 100%;
-    padding: 2vw 0;
+    padding: 30px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -151,81 +176,65 @@ input{
 }
 .showMore{
     border: 0;
-    font-size: 3vw;
+    font-size: 50px;
     cursor: pointer;
     background-color: transparent;
-    margin-bottom: 3vw;
+    margin-bottom: 30px;
 }
 
 @media(max-width: 1200px){
-    .logo{
-        width: 7.2vw;
+    .container{
+        padding: 0 10%;
     }
-    .search{
-        font-size: 2vw;
-        height: 5.68vw;
-    }
-    .searchIcon{
-        width: 1.8vw;
-    }
-    .logout{
-        width: 8.2vw;
-        height: 8.2vw;
-        font-size: 2.4vw;
-    }
-    .addButton{
-        width: 4.5vw;
-        height: 4.5vw;
-    }
-    .notes{
-        width: 100%;
-        font-size: 3vw;
-    }
-    .showMore{
-        font-size: 4vw;
+    .catalogs_line{
+        max-width: 70%;
     }
 }
 @media(max-width: 992px){
     .container{
-        padding: 0 11.80414274000772vw;
+        padding: 0 15px;
     }
-    .logo{
-        width: 8.2vw;
+    .catalogs_line{
+        margin-left: 20px;
+        margin-right: 20px;
     }
-    .search{
-        font-size: 3vw;
-        height: 6.68vw;
-    }
-    .searchIcon{
-        width: 2.2vw;
-    }
-    .addButton{
-        width: 8.5vw;
-        height: 8.5vw;
-    }
-    .notes{
-        font-size: 4vw;
-    }
-    .showMore{
-        font-size: 6vw;
+    .catalog, .currentCatalog{
+        margin-right: 10px;
+        font-size: 25px;
     }
 }
 @media(max-width: 768px){
-    .container{
-        padding: 0 7.295514672439875vw;
+    .body{
+        padding-top: 5px;
     }
+    .showMore{
+        font-size: 50px;
+    }
+    .catalogs_text{
+        font-size: 25px;
+    }
+    .catalog, .currentCatalog{
+        margin-right: 1px;
+        padding: 5px 10px;
+    }
+    .catalogs_line{
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+@media(max-width: 576px){
     .header{
         display: grid;
         justify-content: center;
         align-items: center;
         grid-template-columns: 100%;
         grid-template-areas: "logOut" "logo" "search";
-        padding-top: 5vw;
+        padding-top: 15px;
         &Box{
             width: 100%;
             &:nth-child(1){
                 grid-area: logo;
-                margin: 5.5vw 0;
+                margin: 5px 0;
             }
             &:nth-child(2){
                 grid-area: search;
@@ -234,76 +243,49 @@ input{
             &:nth-child(3){grid-area: logOut;}
         }
     }
-    .logo{
-        width: 23.60828548001544vw;
+    .logout{
+        display: flex;
+        flex-direction: row;
+        height: 60px;
+        span{
+            font-size: 23px;
+            margin: 0 2px;
+        }
     }
     .search{
-        padding: 0 10vw;
-        font-size: 4vw;
-        height: 10vw;
-        border-radius: 5vw;
-    }
-    .searchIcon{
-        width: 3.2vw;
-        left: 4.4vw;
-    }
-    .logout{
-        width: 23.60828548vw;
-        font-size: 4vw;
-        flex-direction: row;
-        span{margin: 0 0.5vw;}
+        font-size: 25px;
     }
     .body{
-        padding-top: 5.5vw;
+        padding: 0;
     }
-    .addButton{
-        width: 15vw;
-        height: 15vw;
-        font-size: 6vw;
+    .catalogs{
+        display: grid;
+        justify-content: start;
+        align-items: center;
+        grid-template-columns: 80% 20%;
+        grid-template-areas: "cat_text cat_text" "cat_line cat_icon";
+        padding: 15px 0 45px 0;
+        margin: 0;
     }
-    .notes{
-        padding-top: 6.5vw;
-        font-size: 5vw;
+    .catalogs_line{
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        max-width: none;
+        grid-area: cat_line;
     }
-    .showMore{
-        font-size: 8vw;
-    }
-}
-@media(max-width: 576px){
-    .container{
-        padding: 0 4.508970749344793vw;
-    }
-    .logo{
-        width: 38.19820590666498vw;
-    }
-    .search{
-        padding: 0 12vw;
-        height: 20vw;
-        font-size: 8vw;
-        border-radius: 8vw;
-    }
-    .searchIcon{
-        width: 4.2vw;
-        left: 5.2vw;
-    }
-    .logout{
-        width: 38.19820591vw;
-        padding: 10vw 0;
-        font-size: 8vw;
-    }
-    .addButton{
-        width: 23.60828548001544vw;
-        height: 23.60828548001544vw;
-        font-size: 9vw;
-    }
-    .notes{
+    .catalogs_button{
+        grid-area: cat_icon;
         text-align: center;
-        font-size: 9vw;
     }
-    .showMore{
-        font-size: 15vw;
+    .catalogs_text{
+        grid-area: cat_text;
     }
-    .footer{
-        padding: 5vw 0;
+    .no_notes{
+        margin-top: 45px;
+    }
+    .notes{
+        margin-top: 0;
+        padding-top: 15px;
     }
 }

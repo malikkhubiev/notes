@@ -33,42 +33,44 @@ export const Auth: FC<AuthPropsType> = ({ login, registration }) => {
     }
 
     return (
-        <div className={styles.main}>
-            <div className={styles.deciding}>
+        <div className={styles.outer}>
+            <div className={styles.main}>
+                <div className={styles.deciding}>
+                    <button
+                        onClick={() => authTypeHandler(true)}
+                        className={`${styles.decidingButton} ${isLogin && styles.selected}`}
+                    >Login</button>
+                    <span>/</span>
+                    <button
+                        onClick={() => authTypeHandler(false)}
+                        className={`${styles.decidingButton} ${!isLogin && styles.selected}`}
+                    >Registration</button>
+                </div>
+                <span
+                    className={styles.label}
+                >
+                    *More than 8 and less than 16 for all
+                </span>
+                <input
+                    id='Username'
+                    placeholder='Username'
+                    value={username}
+                    onChange={usernameHandler}
+                    className={styles.field}
+                />
+                <input
+                    placeholder='Password'
+                    value={password}
+                    onChange={passwordHandler}
+                    className={styles.field}
+                    type="password"
+                />
                 <button
-                    onClick={() => authTypeHandler(true)}
-                    className={styles.decidingButton}
-                >Login</button>
-                <span>/</span>
-                <button
-                    onClick={() => authTypeHandler(false)}
-                    className={styles.decidingButton}
-                >Registration</button>
+                    onClick={submitHandler}
+                    disabled={!username || !password}
+                    className={styles.submit}
+                >{isLogin ? 'Log in' : 'Registrate'}</button>
             </div>
-            <span
-                className={styles.label}
-            >
-                *More than 8 and less than 16 for all
-            </span>
-            <input
-                id='Username'
-                placeholder='Username'
-                value={username}
-                onChange={usernameHandler}
-                className={styles.field}
-            />
-            <input
-                placeholder='Password'
-                value={password}
-                onChange={passwordHandler}
-                className={styles.field}
-                type="password"
-            />
-            <button
-                onClick={submitHandler}
-                disabled={!username || !password}
-                className={styles.submit}
-            >{isLogin ? 'Log in' : 'Registrate'}</button>
         </div>
     )
 }

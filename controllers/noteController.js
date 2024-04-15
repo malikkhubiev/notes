@@ -58,7 +58,6 @@ class noteController {
     addNote = async (req, res, next) => {
         try {
             const userId = req.user.id
-            console.log(userId)
             let { header, body, date, lastDate, catalogId, color } = req.body
             if (!header) return next(ApiError.badRequest('There is no header'))
             if (!date || !lastDate || !userId) return next(ApiError.badRequest('You are not allowed to add notes'))

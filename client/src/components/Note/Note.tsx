@@ -8,57 +8,62 @@ export const Note: FC<NotePropsType> = memo(
     ({ id, header, body, color, lastDate,
         deleteNote, onSendNote }) => {
 
-    let [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
+        let [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
 
-    const deleteHandler = (e: MouseEvent) => {
-        setOpenModalConfirm(prev => prev = true)
-    }
-
-    const confirmHandler = () => {
-        setOpenModalConfirm(prev => prev = false)
-        deleteNote(id)
-    }
-
-    const cancelHandler = () => {
-        setOpenModalConfirm(prev => prev = false)
-    }
-
-    const stylesheet = `
-        .a${id}{
-            width: 5px;
-            height: 120px;
-            background-color: ${color};
+        const deleteHandler = (e: MouseEvent) => {
+            setOpenModalConfirm(prev => prev = true)
         }
-    `
 
-    return (
-        <>
-            <style>
-                {stylesheet}
-            </style>
-            {openModalConfirm &&
-                <ModalConfirm
-                    message="Are you sure you want to delete this note?"
-                    onOkHandler={confirmHandler}
-                    onCancelHandler={cancelHandler}
-                />}
-            <div className={styles.note}>
-                <div className={styles.leftSide}>
-                    <span className={styles.date}>{lastDate}</span>
-                    <button
-                        onClick={deleteHandler}
-                        className={styles.delete}
-                    >delete</button>
+        const confirmHandler = () => {
+            setOpenModalConfirm(prev => prev = false)
+            deleteNote(id)
+        }
+
+        const cancelHandler = () => {
+            setOpenModalConfirm(prev => prev = false)
+        }
+
+        const stylesheet = `
+            .color-${id}{
+                width: 100%;
+                height: 5px;
+                background-color: ${color};
+            }
+        `
+
+        return (
+            <>
+                <style>
+                    {stylesheet}
+                </style>
+                {openModalConfirm &&
+                    <ModalConfirm
+                        message="Are you sure you want to delete this note?"
+                        onOkHandler={confirmHandler}
+                        onCancelHandler={cancelHandler}
+                    />}
+                <div className={styles.note}>
+                    <div className={styles.line}>
+                        <button
+                            onClick={deleteHandler}
+                            className={styles.action}
+                        >delete</button>
+                        <span className={styles.date}>{lastDate}</span>
+                        <button
+                            onClick={() => onSendNote(id)}
+                            className={styles.action}
+                        >send</button>
+                    </div>
+                    <div className={styles.line}>
+                        <div className={`color-${id}`}></div>
+                    </div>
+                    <NavLink
+                        className={styles.main}
+                        to={`/check:${id}`}>
+                        <h1 className={styles.header}>{header}</h1>
+                        <h2 className={styles.body}>{body}</h2>
+                    </NavLink>
                 </div>
-                <div className={`a${id}`}></div>
-                <NavLink
-                    className={styles.rightSide}
-                    to={`/check:${id}`}>
-                    <h1 className={styles.header}>{header}</h1>
-                    <h2 className={styles.body}>{body}</h2>
-                </NavLink>
-                <button onClick={() => onSendNote(id)}>&rarr;</button>
-            </div>
-        </>
-    )
-})
+            </>
+        )
+    })

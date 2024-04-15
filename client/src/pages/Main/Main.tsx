@@ -11,6 +11,7 @@ import { NoteType } from '../../types/main.types'
 import styles from './Main.less'
 import { FooterPropsType } from './Main.types'
 import { ModalList } from '../../components/ui/ModalKit/ModalList/ModalList'
+import catalog from '../../assets/catalog.png'
 
 export const Main: FC<MainPropsType> = observer(({ notesForShow, sendNote,
     getAllCatalogs, getAllNotes, sortNotes, getNotesByCatalog,
@@ -19,7 +20,7 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow, sendNote,
     const notes: NoteType[] | [] = notesForShow
     const [searchValue, setSearchValue] = useState<string>('')
     const [isNeedInButton, setIsNeedInButton] = useState<boolean>(true)
-    
+
     let [choosedNote, setChoosedNote] = useState<NoteType | null>(null)
     let [openModalList, setOpenModalList] = useState<boolean>(false)
 
@@ -89,7 +90,7 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow, sendNote,
                                 onChange={search}
                                 onBlur={searchReset}
                                 value={searchValue}
-                                placeholder="Enter the header of the note"
+                                placeholder="Search..."
                                 type="text"
                                 className={styles.search}
                             />
@@ -103,29 +104,34 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow, sendNote,
                         </div>
                     </div>
                     <div className={styles.body}>
-                        <div className={styles.catalogs_line}>
+                        <div className={styles.catalogs}>
                             <span className={styles.catalogs_text}>Catalogs:</span>
-                            {
-                                catalogs.length
-                                &&
-                                catalogs.map(catalog =>
-                                    <button
-                                        className={
-                                            catalog.name === currentCatalog?.name ?
-                                            styles.currentCatalog : styles.catalog
-                                        }
-                                        key={catalog.id}
-                                        onClick={() => chooseCatalog(catalog.name)}
-                                    >
-                                        {catalog.name}
-                                    </button>
-                                )
-                            }
+                            <div className={styles.catalogs_line}>
+                                {
+                                    catalogs.length
+                                    &&
+                                    catalogs.slice().reverse().map(catalog =>
+                                        <button
+                                            className={
+                                                catalog.name === currentCatalog?.name ?
+                                                    styles.currentCatalog : styles.catalog
+                                            }
+                                            key={catalog.id}
+                                            onClick={() => chooseCatalog(catalog.name)}
+                                        >
+                                            {catalog.name}
+                                        </button>
+                                    )
+                                }
+                            </div>
                             <NavLink
                                 to="catalogs"
                                 className={styles.catalogs_button}
                             >
-                            &#128193;
+                                <img
+                                    src={catalog}
+                                    className={styles.catalog_icon}
+                                />
                             </NavLink>
                         </div>
                         <AddButton path={`/check:${0}`} />
@@ -142,7 +148,9 @@ export const Main: FC<MainPropsType> = observer(({ notesForShow, sendNote,
                                         />
                                     )
                                     :
-                                    "You don't have any notes yet"
+                                    <span className={styles.no_notes}>
+                                        You don't have any notes yet
+                                    </span>
                             }
                         </div>
                     </div>

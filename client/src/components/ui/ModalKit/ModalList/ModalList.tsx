@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import commonStyles from "../commonModal.less"
-import styles from "./ModalList.less"
 import { ModalButtons } from '../ModalButtons/ModalButtons'
+import commonStyles from "../common/commonModal.less"
+import styles from "./ModalList.less"
 
 interface ModalListPropsType {
     message: string
@@ -26,8 +26,8 @@ export const ModalList = (
     return (
         <div className={commonStyles.wrap}>
             <div className={commonStyles.background}></div>
-            <div className={commonStyles.box}>
-                <span className={styles.message}>{message}</span>
+            <div className={`${commonStyles.box} ${styles.box}`}>
+                <span className={commonStyles.message}>{message}</span>
                 <div className={styles.list}>
                     {
                         list.map(el =>

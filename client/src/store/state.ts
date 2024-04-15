@@ -24,7 +24,7 @@ export const DateFormatting = (items: any[]): any[] => {
                 const dateInDateType = new Date(item[param])
                 const day = dateInDateType.getDate() < 10 ? '0' + dateInDateType.getDate() : dateInDateType.getDate()
                 const month = dateInDateType.getMonth() < 10 ? '0' + (dateInDateType.getMonth() + 1) : dateInDateType.getMonth() + 1
-                const year = dateInDateType.getFullYear()
+                const year = `${dateInDateType.getFullYear()}`.slice(2)
                 // @ts-ignore
                 item[param] = `${day}.${month}.${year}`
             }
@@ -69,7 +69,6 @@ class State {
             const response = await $host.post('/auth/registration', { name, password })
             modalCalling(response.data.message)
         } catch (e) {
-            console.log(e)
             modalCalling(e.response.data.message)
         }
     }
@@ -138,24 +137,17 @@ class State {
             this.numberOfNotes = response.data.count
             const formattedNotes = DateFormatting(response.data.rows)
             const notesToSave: any = {}
-            console.log(formattedNotes)
             if (formattedNotes.length) {
                 formattedNotes.forEach((note: any) => {
                     const catalogName = note["catalog"].name
-                    console.log(catalogName)
                     if (notesToSave[catalogName]) {
                         notesToSave[catalogName].push(note)
                     } else {
                         notesToSave[catalogName] = [note]
                     }
-                    console.log(notesToSave)
                 })
-                console.log(notesToSave)
-                console.log(this.currentCatalog)
                 this.notes = {...this.notes, ...notesToSave}
-                console.log(this.notes)
                 this.notesForShow = this.notes[this.currentCatalog.name]
-                console.log(this.notesForShow)
             }
         } catch (e) {
             modalCalling(e.response.data.message)
@@ -205,7 +197,6 @@ class State {
                 (note:NoteType) => note.id !== targetNote.id
             )
             this.notes[formattedData.catalog.name].unshift(formattedData)
-            console.log(this.notes)
             this.notesForShow = this.notes[this.currentCatalog.name]
         } catch (e) {
             modalCalling(e.response.data.message)

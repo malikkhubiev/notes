@@ -50,64 +50,66 @@ export const CheckNote: FC<CheckNotePropsType> = memo((
     }
 
     const changeColorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value)
         setColor(prev => prev = e.target.value)
     }
 
     return (
         <div className={styles.main}>
             <div className={styles.container}>
-                <div className={styles.top}>
-                    <NavLink
-                        to='/'
-                        className={styles.date}
-                    >&#10006;</NavLink>
-                    <p className={styles.date}>{!isAddButton ? note.date : ''}</p>
-                    <NavLink
-                        onClick={whenLeaving}
-                        to='/'
-                        className={styles.date}
-                    >&#10004;</NavLink>
-                </div>
-                <div className={styles.center}>
-                    <div className={styles.fieldContainer}>
-                        <input
-                            onChange={changeColorHandler}
-                            value={color}
-                            type="color"
-                        />
-                        <span className={styles.counter}>
-                            {
-                                header.length > maxSizeOfHeader
-                                    ?
-                                    'Part of the text will be cut off'
-                                    :
-                                    `${maxSizeOfHeader - header.length} letters left`
-                            }
-                        </span>
-                        <input
-                            value={header}
-                            onChange={headerHandler}
-                            placeholder='Enter the header...'
-                            className={`${styles.header} ${styles.field}`}
-                        />
+                <div className={styles.box}>
+                    <div className={styles.top}>
+                        <NavLink
+                            to='/'
+                            className={styles.top_text_square}
+                        >&#10006;</NavLink>
+                        <p className={styles.top_text}>{!isAddButton ? note.date : ''}</p>
+                        <NavLink
+                            onClick={whenLeaving}
+                            to='/'
+                            className={styles.top_text_square}
+                        >&#10004;</NavLink>
                     </div>
-                    <div className={styles.fieldContainer}>
-                        <span className={styles.counter}>
-                            {
-                                body.length > maxSizeOfBody
-                                    ?
-                                    'Part of the text will be cut off'
-                                    :
-                                    `${maxSizeOfBody - body.length} letters left`
-                            }
-                        </span>
-                        <textarea
-                            value={body}
-                            onChange={bodyHandler}
-                            placeholder='Enter the body...'
-                            className={`${styles.body} ${styles.field}`}
-                        />
+                    <div className={styles.center}>
+                        <div className={styles.fieldContainer}>
+                            <input
+                                onChange={changeColorHandler}
+                                value={color}
+                                type="color"
+                                className={styles.color}
+                            />
+                            <span className={styles.counter}>
+                                {
+                                    header.length > maxSizeOfHeader
+                                        ?
+                                        'Part of the text will be cut off'
+                                        :
+                                        `${maxSizeOfHeader - header.length} letters left`
+                                }
+                            </span>
+                            <input
+                                value={header}
+                                onChange={headerHandler}
+                                placeholder="Note's header..."
+                                className={`${styles.header} ${styles.field}`}
+                            />
+                        </div>
+                        <div className={styles.fieldContainer}>
+                            <span className={styles.counter}>
+                                {
+                                    body.length > maxSizeOfBody
+                                        ?
+                                        'Part of the text will be cut off'
+                                        :
+                                        `${maxSizeOfBody - body.length} letters left`
+                                }
+                            </span>
+                            <textarea
+                                value={body}
+                                onChange={bodyHandler}
+                                placeholder="Note's body..."
+                                className={`${styles.body} ${styles.field}`}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

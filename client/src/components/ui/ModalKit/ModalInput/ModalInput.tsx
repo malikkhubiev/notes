@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import commonStyles from "../commonModal.less"
-import styles from "./ModalInput.less"
 import { ModalButtons } from '../ModalButtons/ModalButtons'
+import commonStyles from "../common/commonModal.less"
+import styles from "./ModalInput.less"
 
 interface ModalInputPropsType {
     message: string
@@ -26,7 +26,7 @@ export const ModalInput = (
         <div className={commonStyles.wrap}>
             <div className={commonStyles.background}></div>
             <div className={commonStyles.box}>
-                <span className={styles.message}>{message}</span>
+                <span className={commonStyles.message}>{message}</span>
                 <input
                     value={value}
                     onChange={changeInputHandler}

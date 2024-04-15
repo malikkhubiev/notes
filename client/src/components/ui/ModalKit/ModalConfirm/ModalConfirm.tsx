@@ -1,7 +1,6 @@
 import React from 'react'
 import { ModalButtons } from '../ModalButtons/ModalButtons'
-import commonStyles from "../commonModal.less"
-import styles from "./ModalConfirm.less"
+import commonStyles from "../common/commonModal.less"
 
 interface ModalConfirmPropsType {
     message: string
@@ -16,7 +15,7 @@ export const ModalConfirm = (
         <div className={commonStyles.wrap}>
             <div className={commonStyles.background}></div>
             <div className={commonStyles.box}>
-                <span className={styles.message}>{message}</span>
+                <span className={commonStyles.message}>{message}</span>
                 <ModalButtons
                     onOkHandler={onOkHandler}
                     onCancelHandler={onCancelHandler}
